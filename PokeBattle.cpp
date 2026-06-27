@@ -132,8 +132,6 @@ void mostrarEntrenadores(string e1, string e2) {
     cout << "Entrenador 2: " << e2 << endl;
 }
 
-feat: función de seleccionar pokemon y atacar, guardar batalla y mostrar ataques - Max
-
 void seleccionarPokemon(string entrenador, int *pokemon) {
     cout << endl << "Entrenador " << entrenador << ", escoja su pokemon" << endl;
     cout << "1. Charizard" << endl;

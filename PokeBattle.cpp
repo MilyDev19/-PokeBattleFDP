@@ -235,3 +235,59 @@ void atacar(int pokemon, int ataque, int *hpRival, int *vel, int *hp,
     if (*hp < 0) *hp = 0;
     if (*hpRival < 0) *hpRival = 0;
 }
+void turno(string nombre, int pokemon, int *hp, int hpMax, int *hpRival,
+           int *vel, int *velRival, bool *quemado, bool *dren, bool *protegido,
+           int *pociones, int *maximas) {
+    int op, obj, ataque;
+
+    cout << endl << "Turno de " << nombre << endl;
+    cout << "1. Ataque" << endl;
+    cout << "2. Objeto" << endl;
+    cin >> op;
+
+    while (op < 1 || op > 2) {
+        cout << "Opcion invalida." << endl;
+        cin >> op;
+    }
+
+    if (op == 2) {
+        cout << endl << "Elige un objeto:" << endl;
+        cout << "1. Pocion (+40 HP) [" << *pociones << " restantes]" << endl;
+        cout << "2. Pocion Max (HP completo) [" << *maximas << " restantes]" << endl;
+        cin >> obj;
+
+        while (obj < 1 || obj > 2) {
+            cout << "Opcion invalida." << endl;
+            cin >> obj;
+        }
+
+        if (obj == 1) {
+            if (*pociones <= 0) {
+                cout << "No te quedan pociones!" << endl;
+            } else {
+                *hp = *hp + 40;
+                if (*hp > hpMax) *hp = hpMax;
+                (*pociones)--;
+                cout << "Usaste Pocion. HP actual: " << *hp << endl;
+            }
+        } else {
+            if (*maximas <= 0) {
+                cout << "No te quedan pociones max!" << endl;
+            } else {
+                *hp = hpMax;
+                (*maximas)--;
+                cout << "Usaste Pocion Max. HP actual: " << *hp << endl;
+            }
+        }
+    } else {
+        mostrarAtaques(pokemon);
+        cin >> ataque;
+
+        while (ataque < 1 || ataque > 4) {
+            cout << "Ataque invalido." << endl;
+            cin >> ataque;
+        }
+
+        atacar(pokemon, ataque, hpRival, vel, hp, quemado, dren, protegido);
+    }
+}

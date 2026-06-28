@@ -374,3 +374,48 @@ void realizarBatalla(string e1, string e2, int p1, int p2, reg *registro) {
     cin.ignore();
 }
 
+void tableroResultados() {
+    reg r;
+    int i;
+    char fechaFmt[11]; 
+
+    ifstream arch("batallas.dat", ios::binary);
+    if (!arch) {
+        cout << endl << "No hay batallas registradas aun." << endl;
+        return;
+    }
+
+    cout << endl << "============================================================" << endl;
+    cout << "                   TABLERO DE RESULTADOS" << endl;
+    cout << "============================================================" << endl;
+    cout << "Fecha        Entrenador 1     Pokemon 1      Entrenador 2     Pokemon 2      Ganador" << endl;
+    cout << "------------ ---------------- -------------- ---------------- -------------- ----------------" << endl;
+
+    arch.read((char *) &r, sizeof(reg));
+    while (!arch.eof()) {
+        fechaFmt[0] = r.fecha[6]; fechaFmt[1] = r.fecha[7];
+        fechaFmt[2] = '/';
+        fechaFmt[3] = r.fecha[4]; fechaFmt[4] = r.fecha[5];
+        fechaFmt[5] = '/';
+        fechaFmt[6] = r.fecha[0]; fechaFmt[7] = r.fecha[1];
+        fechaFmt[8] = r.fecha[2]; fechaFmt[9] = r.fecha[3];
+        fechaFmt[10] = '\0';
+
+        cout << fechaFmt << "  " << r.entrenador1 << "  ";
+        for (i = strlen(r.entrenador1); i < 16; i++) cout << " ";
+        cout << r.pokemon1 << "  ";
+        for (i = strlen(r.pokemon1); i < 14; i++) cout << " ";
+        cout << r.entrenador2 << "  ";
+        for (i = strlen(r.entrenador2); i < 16; i++) cout << " ";
+        cout << r.pokemon2 << "  ";
+        for (i = strlen(r.pokemon2); i < 14; i++) cout << " ";
+        cout << r.ganador << endl;
+
+        arch.read((char *) &r, sizeof(reg));
+    }
+    arch.close();
+    cout << "============================================================" << endl;
+}
+
+
+

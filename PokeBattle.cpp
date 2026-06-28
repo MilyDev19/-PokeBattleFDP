@@ -289,3 +289,88 @@ void turno(string nombre, int pokemon, int *hp, int hpMax, int *hpRival,
         atacar(pokemon, ataque, hpRival, vel, hp, quemado, dren, protegido);
     }
 }
+
+void realizarBatalla(string e1, string e2, int p1, int p2, reg *registro) {
+    int hp1, hp2, vel1, vel2, hpMax1, hpMax2;
+    int poc1, max1, poc2, max2;
+    bool quemado1, quemado2, dren1, dren2, prot1, prot2;
+    string ganador;
+
+    if (p1 == 0 || p2 == 0) {
+        cout << endl << "Error: ambos entrenadores deben seleccionar un pokemon primero." << endl;
+        return;
+    }
+
+    if (p1 == 1) { hp1 = 266; vel1 = 100; }
+    else if (p1 == 2) { hp1 = 270; vel1 = 80; }
+    else { hp1 = 268; vel1 = 78; }
+
+    if (p2 == 1) { hp2 = 266; vel2 = 100; }
+    else if (p2 == 2) { hp2 = 270; vel2 = 80; }
+    else { hp2 = 268; vel2 = 78; }
+
+    hpMax1 = hp1;
+    hpMax2 = hp2;
+    poc1 = 3; max1 = 1;
+    poc2 = 3; max2 = 1;
+    quemado1 = false; quemado2 = false;
+    dren1 = false;    dren2 = false;
+    prot1 = false;    prot2 = false;
+
+    while (hp1 > 0 && hp2 > 0) {
+        cout << endl << e1 << " HP: " << hp1 << "   " << e2 << " HP: " << hp2 << endl;
+        cout << "Vel1: " << vel1 << "   Vel2: " << vel2 << endl;
+
+        prot1 = false;
+        prot2 = false;
+
+        if (vel1 >= vel2) {
+            turno(e1, p1, &hp1, hpMax1, &hp2, &vel1, &vel2, &quemado2, &dren2, &prot1, &poc1, &max1);
+            if (hp2 <= 0) break;
+            turno(e2, p2, &hp2, hpMax2, &hp1, &vel2, &vel1, &quemado1, &dren1, &prot2, &poc2, &max2);
+        } else {
+            turno(e2, p2, &hp2, hpMax2, &hp1, &vel2, &vel1, &quemado1, &dren1, &prot2, &poc2, &max2);
+            if (hp1 <= 0) break;
+            turno(e1, p1, &hp1, hpMax1, &hp2, &vel1, &vel2, &quemado2, &dren2, &prot1, &poc1, &max1);
+        }
+
+        if (quemado1 && !prot1) hp1 -= 25;
+        if (quemado2 && !prot2) hp2 -= 25;
+
+        if (dren1) {
+            hp1 -= 30;
+            hp2 += 30;
+            if (hp2 > hpMax2) hp2 = hpMax2;
+        }
+        if (dren2) {
+            hp2 -= 30;
+            hp1 += 30;
+            if (hp1 > hpMax1) hp1 = hpMax1;
+        }
+
+        if (hp1 < 0) hp1 = 0;
+        if (hp2 < 0) hp2 = 0;
+
+        cout << endl << e1 << " HP restante: " << hp1 << endl;
+        cout << e2 << " HP restante: " << hp2 << endl;
+    }
+
+    if (hp1 > 0) ganador = e1;
+    else ganador = e2;
+
+    cout << endl << "=============================" << endl;
+    cout << "  " << ganador << " gana la batalla!" << endl;
+    cout << "=============================" << endl;
+
+    for (int i = 0; i < (int)ganador.length(); i++)
+        registro->ganador[i] = ganador[i];
+    registro->ganador[ganador.length()] = '\0';
+
+    guardarBatalla(registro);
+
+    string pausa;
+    cout << endl << "Presione Enter para volver al menu...";
+    getline(cin, pausa);
+    cin.ignore();
+}
+

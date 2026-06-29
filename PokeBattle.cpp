@@ -417,5 +417,47 @@ void tableroResultados() {
     cout << "============================================================" << endl;
 }
 
+// historial 
+void repoBatallasPorFecha() {
+    int anho, mes, dia, i;
+    string anhoTxt, mesTxt, diaTxt, buscar;
+    bool encontrado;
+    reg r;
+    char fechaFmt[11];
+
+    cout << endl << "REPORTE POR FECHA" << endl;
+    cout << "Año: "; cin >> anho;
+    cout << "Mes: ";  cin >> mes;
+    cout << "Dia: ";  cin >> dia;
+    cin.ignore();
+
+    anhoTxt = to_string(anho);
+    mesTxt  = (mes < 10) ? ("0" + to_string(mes)) : to_string(mes);
+    diaTxt  = (dia < 10) ? ("0" + to_string(dia)) : to_string(dia);
+    buscar  = anhoTxt + mesTxt + diaTxt;
+
+    ifstream arch("batallas.dat", ios::binary);
+    if (!arch) { cout << "No hay batallas registradas." << endl; return; }
+
+    encontrado = false;
+    arch.read((char *) &r, sizeof(reg));
+    while (!arch.eof()) {
+        if (strcmp(r.fecha, buscar.c_str()) == 0) {
+            if (!encontrado) {
+                cout << endl << "Batallas del " << dia << "/" << mes << "/" << anho << ":" << endl;
+                cout << "--------------------------------------------------" << endl;
+            }
+            encontrado = true;
+            cout << r.entrenador1 << " (" << r.pokemon1 << ") vs "
+                 << r.entrenador2 << " (" << r.pokemon2 << ")  ->  Gana: " << r.ganador << endl;
+        }
+        arch.read((char *) &r, sizeof(reg));
+    }
+    arch.close();
+    if (!encontrado) cout << "No se encontraron batallas en esa fecha." << endl;
+}
+
+
+
 
 

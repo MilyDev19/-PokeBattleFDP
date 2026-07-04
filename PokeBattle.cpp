@@ -567,6 +567,153 @@ void repoBatallasPorPokemon() {
     cout << "Victorias: " << victorias << "   Derrotas: " << derrotas << endl;
 }
 
+void repoBatallasPorPokemon() {
+    int opcion, victorias, derrotas;
+    bool uso1, uso2, gano;
+    char buscar[20];
+    reg r;
+    char fechaFmt[11];
+
+    cout << endl << "REPORTE POR POKEMON" << endl;
+    cout << "1. Charizard" << endl;
+    cout << "2. Venusaur"  << endl;
+    cout << "3. Blastoise" << endl;
+    cout << "Seleccione: ";
+    cin >> opcion;
+    cin.ignore();
+
+    if (opcion == 1) strcpy(buscar, "Charizard");
+    else if (opcion == 2) strcpy(buscar, "Venusaur");
+    else strcpy(buscar, "Blastoise");
+
+    ifstream arch("batallas.dat", ios::binary);
+    if (!arch) { cout << "No hay batallas registradas." << endl; return; }
+
+    victorias = 0;
+    derrotas  = 0;
+    cout << endl << "Historial de " << buscar << ":" << endl;
+    cout << "--------------------------------------------------" << endl;
+
+    arch.read((char *) &r, sizeof(reg));
+    while (!arch.eof()) {
+        uso1 = (strcmp(r.pokemon1, buscar) == 0);
+        uso2 = (strcmp(r.pokemon2, buscar) == 0);
+        if (uso1 || uso2) {
+            fechaFmt[0] = r.fecha[6]; fechaFmt[1] = r.fecha[7];
+            fechaFmt[2] = '/';
+            fechaFmt[3] = r.fecha[4]; fechaFmt[4] = r.fecha[5];
+            fechaFmt[5] = '/';
+            fechaFmt[6] = r.fecha[0]; fechaFmt[7] = r.fecha[1];
+            fechaFmt[8] = r.fecha[2]; fechaFmt[9] = r.fecha[3];
+            fechaFmt[10] = '\0';
+
+            if (uso1) {
+                gano = (strcmp(r.ganador, r.entrenador1) == 0);
+                cout << fechaFmt << "  Entrenador: " << r.entrenador1;
+            } else {
+                gano = (strcmp(r.ganador, r.entrenador2) == 0);
+                cout << fechaFmt << "  Entrenador: " << r.entrenador2;
+            }
+
+            if (gano) { cout << "  ->  Victoria" << endl; victorias++; }
+            else      { cout << "  ->  Derrota"  << endl; derrotas++;  }
+        }
+        arch.read((char *) &r, sizeof(reg));
+    }
+    arch.close();
+    cout << "--------------------------------------------------" << endl;
+    cout << "Victorias: " << victorias << "   Derrotas: " << derrotas << endl;
+}
+
+void repoBatallasPorPokemon() {
+    int opcion, victorias, derrotas;
+    bool uso1, uso2, gano;
+    char buscar[20];
+    reg r;
+    char fechaFmt[11];
+
+    cout << endl << "REPORTE POR POKEMON" << endl;
+    cout << "1. Charizard" << endl;
+    cout << "2. Venusaur"  << endl;
+    cout << "3. Blastoise" << endl;
+    cout << "Seleccione: ";
+    cin >> opcion;
+    cin.ignore();
+
+    if (opcion == 1) strcpy(buscar, "Charizard");
+    else if (opcion == 2) strcpy(buscar, "Venusaur");
+    else strcpy(buscar, "Blastoise");
+
+    ifstream arch("batallas.dat", ios::binary);
+    if (!arch) { cout << "No hay batallas registradas." << endl; return; }
+
+    victorias = 0;
+    derrotas  = 0;
+    cout << endl << "Historial de " << buscar << ":" << endl;
+    cout << "--------------------------------------------------" << endl;
+
+    arch.read((char *) &r, sizeof(reg));
+    while (!arch.eof()) {
+        uso1 = (strcmp(r.pokemon1, buscar) == 0);
+        uso2 = (strcmp(r.pokemon2, buscar) == 0);
+        if (uso1 || uso2) {
+            fechaFmt[0] = r.fecha[6]; fechaFmt[1] = r.fecha[7];
+            fechaFmt[2] = '/';
+            fechaFmt[3] = r.fecha[4]; fechaFmt[4] = r.fecha[5];
+            fechaFmt[5] = '/';
+            fechaFmt[6] = r.fecha[0]; fechaFmt[7] = r.fecha[1];
+            fechaFmt[8] = r.fecha[2]; fechaFmt[9] = r.fecha[3];
+            fechaFmt[10] = '\0';
+
+            if (uso1) {
+                gano = (strcmp(r.ganador, r.entrenador1) == 0);
+                cout << fechaFmt << "  Entrenador: " << r.entrenador1;
+            } else {
+                gano = (strcmp(r.ganador, r.entrenador2) == 0);
+                cout << fechaFmt << "  Entrenador: " << r.entrenador2;
+            }
+
+            if (gano) { cout << "  ->  Victoria" << endl; victorias++; }
+            else      { cout << "  ->  Derrota"  << endl; derrotas++;  }
+        }
+        arch.read((char *) &r, sizeof(reg));
+    }
+    arch.close();
+    cout << "--------------------------------------------------" << endl;
+    cout << "Victorias: " << victorias << "   Derrotas: " << derrotas << endl;
+}
 
 
+void repoTodasLasBatallas() {
+    reg r;
+    int cont;
+    char fechaFmt[11];
 
+    ifstream arch("batallas.dat", ios::binary);
+    if (!arch) { cout << "No hay batallas registradas." << endl; return; }
+
+    cout << endl << "TODAS LAS BATALLAS REGISTRADAS" << endl;
+    cout << "--------------------------------------------------" << endl;
+    cont = 0;
+
+    arch.read((char *) &r, sizeof(reg));
+    while (!arch.eof()) {
+        fechaFmt[0] = r.fecha[6]; fechaFmt[1] = r.fecha[7];
+        fechaFmt[2] = '/';
+        fechaFmt[3] = r.fecha[4]; fechaFmt[4] = r.fecha[5];
+        fechaFmt[5] = '/';
+        fechaFmt[6] = r.fecha[0]; fechaFmt[7] = r.fecha[1];
+        fechaFmt[8] = r.fecha[2]; fechaFmt[9] = r.fecha[3];
+        fechaFmt[10] = '\0';
+
+        cont++;
+        cout << cont << ". [" << fechaFmt << "] "
+             << r.entrenador1 << " (" << r.pokemon1 << ") vs "
+             << r.entrenador2 << " (" << r.pokemon2 << ")  ->  Gana: " << r.ganador << endl;
+
+        arch.read((char *) &r, sizeof(reg));
+    }
+    arch.close();
+    cout << "--------------------------------------------------" << endl;
+    cout << "Total de batallas: " << cont << endl;
+}

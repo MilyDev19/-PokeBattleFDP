@@ -717,3 +717,35 @@ void repoTodasLasBatallas() {
     cout << "--------------------------------------------------" << endl;
     cout << "Total de batallas: " << cont << endl;
 }
+
+//menu de reportes
+void reportes() {
+    int opcion = 1;
+    string pausar;
+
+    while (opcion != 5) {
+        system("cls");
+        cout << "REPORTES" << endl;
+        cout << "========" << endl << endl;
+        cout << "1) Batallas por fecha." << endl;
+        cout << "2) Historial por entrenador." << endl;
+        cout << "3) Historial por pokemon." << endl;
+        cout << "4) Todas las batallas." << endl;
+        cout << "5) Volver al menu principal." << endl << endl;
+        cout << "Digite su opcion: ";
+        cin >> opcion;
+        cin.ignore();
+
+        switch (opcion) {
+        case 1: repoBatallasPorFecha(); break;
+        case 2: repoBatallasPorEntrenador(); break;
+        case 3: repoBatallasPorPokemon(); break;
+        case 4: repoTodasLasBatallas(); break;
+        case 5: cout << "Volviendo al menu principal." << endl; break;
+        default: cout << "Opcion no valida." << endl;
+        }
+
+        cout << endl << "Menu de reportes. Pulse Enter para continuar...";
+        getline(cin, pausar);
+    }
+}
